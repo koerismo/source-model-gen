@@ -1,5 +1,6 @@
 from srctools import Property
 import os, subprocess
+from shutil import copyfile
 ''' A python library to automate material and model generation. '''
 class qc:
     ''' QC details the specifications of the model for generation '''
@@ -70,10 +71,12 @@ class mat:
             y = ['diffuse','normal','bump','glossy'][a]
             if (os.path.isfile(x.__path)):
                 print(f'VTF texture for {y} already exists. Copying to material location.')
-                continue
+                #copyfile(x.__path,
+                return
+                print('This failed horribly. Yikes.')
             if not os.path.isfile(x.__img):
                 raise Exception(f'Unable to find texture file for {y}.')
-        pass
+            
 
         
 class tex:
@@ -87,3 +90,6 @@ class tex:
 def remove_postfix(st):
     ''' take a guess. It removes the file ending. '''
     return '.'.join(st.split('.')[:-1])
+
+def get_path_relative(a,b):
+    return os.path.normpath(b)[len(os.path.commonpath([a,b])):]
